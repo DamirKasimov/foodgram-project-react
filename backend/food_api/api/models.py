@@ -1,7 +1,6 @@
-from django.db import models
 from django.core.validators import MinValueValidator
+from django.db import models
 from users.models import User
-
 
 TAG_NAME_CHOICES = [
     ('Завтрак', 'Завтрак'),
@@ -36,11 +35,16 @@ class Tags(models.Model):
     class Meta:
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
+        constraints = [
+                    models.UniqueConstraint(fields=['name', 'slug'],
+                                            name='tag_uniqueness'),
+        ]
 
 
 class Ingridient(models.Model):
     name = models.CharField(
-        max_length=100
+        max_length=100,
+        unique=True
     )
     measurement_unit = models.CharField(
         max_length=20
@@ -92,8 +96,7 @@ class Recipe(models.Model):
         verbose_name='Автор рецепта'
     )
     name = models.CharField(max_length=200, verbose_name='Название рецепта')
-    image = models.ImageField(upload_to='recipes/images/',
-                              null=True, blank=True)
+    image = models.ImageField(upload_to='recipes/images/')
     text = models.TextField(verbose_name='Описание рецепта')
     ingredients = models.ManyToManyField(
         Ingridient,
@@ -106,7 +109,7 @@ class Recipe(models.Model):
         related_name='recipes',
         verbose_name='Тэг'
     )
-    cooking_time = models.IntegerField(
+    cooking_time = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1)],
         verbose_name='Время приготовления (мин.)'
     )
@@ -141,6 +144,10 @@ class Favorites(models.Model):
         ordering = ["-user"]
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
+        constraints = [
+                    models.UniqueConstraint(fields=['user', 'favorite_recipe'],
+                                            name='favorites_uniqueness'),
+        ]
 
     def __str__(self):
         return f'{self.user} добавил {self.favorite_recipe} себе в Избранное'

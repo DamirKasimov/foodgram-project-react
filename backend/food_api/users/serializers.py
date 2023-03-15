@@ -1,6 +1,7 @@
-from rest_framework import serializers
-from .models import User
 from api.models import Recipe
+from rest_framework import serializers
+
+from .models import User
 
 
 class NewRecipesSerialaizer(serializers.ModelSerializer):

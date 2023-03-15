@@ -1,16 +1,17 @@
-from rest_framework import filters, viewsets, status, permissions
+from django.db.models import Sum
+from django.http import HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
-from .serializers import (RecipeSerializer, TagsSerializer,
-                          IngridientsSerializer, RecipeCreateSerializer,
-                          FavoriteSerializer, RecipePatchSerializer,
-                          ShoppingCartSerializer)
-from .models import Tags, Ingridient, Recipe, Favorites, Shopping_cart, \
-    IngridientRecipe
+from rest_framework import filters, permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.http import HttpResponse
-from django.db.models import Sum
+
 from .filters import ToFrontFilters
+from .models import (Favorites, Ingridient, IngridientRecipe, Recipe,
+                     Shopping_cart, Tags)
+from .serializers import (FavoriteSerializer, IngridientsSerializer,
+                          RecipeCreateSerializer, RecipePatchSerializer,
+                          RecipeSerializer, ShoppingCartSerializer,
+                          TagsSerializer)
 
 
 class TagsViewSet(viewsets.ReadOnlyModelViewSet):
@@ -58,9 +59,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 return Response({'errors': 'Рецепт уже в Списке покупок'},
                                 status=status.HTTP_400_BAD_REQUEST)
             else:
-                serializer = ShoppingCartSerializer(data={'user':
-                                                    request.user.id,
-                                                    'recipe_to_shop': pk})
+                # 3 Версия
+                data = Recipe.objects.get(id=pk).__dict__
+                serializer = ShoppingCartSerializer(
+                    data=data,
+                    context={'recipe_to_shop': pk,
+                             'user': request.user.id})
                 serializer.is_valid(raise_exception=True)
                 self.perform_create(serializer)
                 return Response(serializer.data,
@@ -68,7 +72,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         try:
             Shopping_cart.objects.get(recipe_to_shop=pk).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        except Favorites.DoesNotExist:
+        except Shopping_cart.DoesNotExist:
             return Response({'errors': 'Рецепт отсутствует в Списке покупок'},
                             status=status.HTTP_400_BAD_REQUEST)
 

@@ -1,13 +1,13 @@
-from djoser.views import TokenCreateView
-from djoser.serializers import TokenSerializer
-from rest_framework import status, permissions
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from djoser import utils
-from .models import User, Subscription
-from .serializers import SubscriptionSerializer
+from djoser.serializers import TokenSerializer
+from djoser.views import TokenCreateView, UserViewSet
+from rest_framework import permissions, status
 from rest_framework.decorators import action
-from djoser.views import UserViewSet
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Subscription, User
+from .serializers import SubscriptionSerializer
 
 
 class MyTokenCreateView(TokenCreateView):
@@ -73,7 +73,8 @@ class CustomUserViewSet(UserViewSet):
                                  Отписаться не можем'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
-    @action(methods=['get'], detail=False)
+    @action(methods=['get'], detail=False,
+            serializer_class=SubscriptionSerializer)
     def subscriptions(self, request):
         user = request.user
         # список тех, на кого подписан текущий user

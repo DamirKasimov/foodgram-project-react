@@ -1,5 +1,6 @@
-from .models import Recipe, Tags
 import django_filters
+
+from .models import Recipe, Tags
 
 
 class ToFrontFilters(django_filters.FilterSet):

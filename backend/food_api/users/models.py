@@ -1,12 +1,5 @@
-from django.db import models
-
 from django.contrib.auth.models import AbstractUser
-
-CHOICES = (
-    ('user', 'Пользователь'),
-    ('moderator', 'Модератор'),
-    ('admin', 'Администратор'),
-)
+from django.db import models
 
 
 class User(AbstractUser):
@@ -54,3 +47,12 @@ class Subscription(models.Model):
         related_name='subscription_followed',
         verbose_name='Автор'
     )
+
+    class Meta:
+        constraints = [
+                models.UniqueConstraint(fields=['follower', 'followed'],
+                                        name='subscription_uniqueness'),
+                models.CheckConstraint
+                (name='self_follow_not',
+                 check=~models.Q(followed=models.F("follower")))
+                ]
