@@ -5,8 +5,8 @@ from django.core.files.base import ContentFile
 from rest_framework import serializers
 from users.models import Subscription, User
 
-from .models import (Favorites, Ingridient, IngridientRecipe, Recipe,
-                     Shopping_cart, Tags)
+from content.models import (Favorites, IngridientRecipe, Recipe,
+                     Shopping_cart, Ingridient, Tags)
 
 
 class AuthorRecipeSerializer(serializers.ModelSerializer):

@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 #SECRET_KEY = 'django-insecure-v5kobe^0%a($hn#h*qzh=&3sfzr((y6!to6axlebm%^h*^owul'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+
     'rest_framework.authtoken',
     'djoser',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
+    'content.apps.ContentConfig',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +132,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'  # внутренняя ссылка
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # папка

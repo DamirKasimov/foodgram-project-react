@@ -1,4 +1,4 @@
-from api.models import Recipe
+from content.models import Recipe
 from rest_framework import serializers
 
 from .models import User

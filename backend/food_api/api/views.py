@@ -6,8 +6,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .filters import ToFrontFilters
-from .models import (Favorites, Ingridient, IngridientRecipe, Recipe,
-                     Shopping_cart, Tags)
+from content.models import (Favorites, IngridientRecipe, Recipe,
+                            Shopping_cart, Ingridient, Tags)
 from .serializers import (FavoriteSerializer, IngridientsSerializer,
                           RecipeCreateSerializer, RecipePatchSerializer,
                           RecipeSerializer, ShoppingCartSerializer,

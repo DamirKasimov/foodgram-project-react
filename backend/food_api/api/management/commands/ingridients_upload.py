@@ -3,14 +3,14 @@ import os
 
 from django.core.management import BaseCommand
 
-from api.models import Ingridient
+from content.models import Ingridient
 
 
 class Command(BaseCommand):
     """Отдельный модуль загрузки ингридентов из данного файла"""
 
     DEFAULT_PATH = os.path.join(os.path.
-                                abspath('static/data'), 'ingredients.csv')
+                                abspath('static'), 'ingredients.csv')
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -18,7 +18,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        with open('api/data/ingredients.csv', encoding='utf-8') as f:
+        with open(options.get('file_path'), encoding='utf-8') as f:
             reader = csv.reader(f)
             for row in reader:
                 name, unit = row
