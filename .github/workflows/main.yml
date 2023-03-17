@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: SCP files via ssh key
         uses: appleboy/scp-action@master
-        with:
+        env:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY_VM }}
@@ -32,7 +32,7 @@ jobs:
       - name: Login to Docker 
         # Запуск скрипта авторизации на Docker Hub
         uses: docker/login-action@v1 
-        env:
+        with:
           username: damirkasimov
           password: madagaskar123
       - name: Push to Docker Hub
