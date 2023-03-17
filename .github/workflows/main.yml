@@ -32,7 +32,7 @@ jobs:
       - name: Login to Docker 
         # Запуск скрипта авторизации на Docker Hub
         uses: docker/login-action@v1 
-        with:
+        env:
           username: damirkasimov
           password: madagaskar123
       - name: Push to Docker Hub
