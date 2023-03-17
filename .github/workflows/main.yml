@@ -11,10 +11,10 @@ jobs:
       - name: SCP files via ssh key
         uses: appleboy/scp-action@master
         env:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY_VM }}
-          passphrase: ${{ secrets.PASSPHRASE }}
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          KEY: ${{ secrets.SSH_KEY_VM }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
         with:
           source: './infra/vm_deploy/*'
           target: '/home/damirmccloud/'
