@@ -16,7 +16,7 @@ jobs:
           KEY: ${{ secrets.SSH_KEY_VM }}
           PASSPHRASE: ${{ secrets.PASSPHRASE }}
         with:
-          source: '/home/runner/work/foodgram-project-react/infra/vm_deploy/*'
+          source: '../foodgram-project-react/infra/vm_deploy/*'
           target: '/home/damirmccloud/'
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
