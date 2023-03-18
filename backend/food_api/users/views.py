@@ -33,7 +33,7 @@ class CustomUserViewSet(UserViewSet):
     serializer_class = SubscriptionSerializer
 
     # ендпойнт subscribe
-    @action(methods=['post', 'delete'], detail=True,
+    @action(methods=['post', 'delete'], detail=True, url_path='subscribe',
             serializer_class=SubscriptionSerializer)
     def subscribe(self, request, id):
         if request.method == 'POST':

@@ -77,7 +77,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
     # декоратор @action + 'favorite' == эндпойнт для работы с избранным
-    @action(methods=['post', 'delete'], detail=True, url_path='subscribe',
+    @action(methods=['post', 'delete'], detail=True,
             serializer_class=FavoriteSerializer)
     def favorite(self, request, pk=None):
         if request.method == 'POST':
