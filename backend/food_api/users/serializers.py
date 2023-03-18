@@ -29,8 +29,11 @@ class SubscriptionSerializer(SubscriptionUserInfoSerializer):
     def get_recipes(self, object):
         # object == followed_author
         recipes_limit = self.context.get('request').GET.get('recipes_limit')
+     #   if recipes_limit:
+     #       output = Recipe.objects.filter(author_id=object.id).\
+     #           prefetch_related('ingredients').all()[:int(recipes_limit)]
         output = Recipe.objects.filter(author_id=object.id).\
-            prefetch_related('ingredients').all()[:int(recipes_limit)]
+            prefetch_related('ingredients').all()
         return NewRecipesSerialaizer(output, many=True).data
 
     def get_is_subscribed(self, instance):
