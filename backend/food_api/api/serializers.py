@@ -19,7 +19,7 @@ class AuthorRecipeSerializer(serializers.ModelSerializer):
 
     def get_is_subscribed(self, instance):
         try:
-            Subscription.objects.filter(followed_id=instance.id).exists()
+            Subscription.objects.get(followed=instance)
             return True
         except Subscription.DoesNotExist:
             return False

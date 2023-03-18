@@ -22,5 +22,4 @@ urlpatterns = [
     # + /?recipes_limit=...
     path('users/<int:id>/subscribe/', CustomUserViewSet.as_view(
         {'post': 'subscribe', 'delete': 'subscribe'}), name='to_un/subscribe'),
-
 ]
