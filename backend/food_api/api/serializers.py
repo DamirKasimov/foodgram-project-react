@@ -107,7 +107,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         for ingridient in recipe_ingredients:
             # валидация наличия ингридиента в БД
             print(ingridient)
-            if ingridient['amount'] < 1:
+            if int(ingridient['amount']) < 1:
                 raise serializers.ValidationError('Количество ингридиента '
                                                   'д.б. больше 0')
             if Ingridient.objects.filter(id=(list(ingridient.values())[0])).\
