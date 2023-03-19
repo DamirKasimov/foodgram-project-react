@@ -30,10 +30,6 @@ class IngredientsRecipeSerializer(serializers.ModelSerializer):
 
     def amount_info(self, instance):
         amounts = (instance.ingredient_amount.values_list('amount', flat=True))
-        if amounts.last() < 1:
-            raise serializers.ValidationError('Количество ингридиента '
-                                              'д.б. больше 0')
-        print(list(amounts))
         return ((list(amounts))[-1])
 
     class Meta:
@@ -83,6 +79,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         fields = ('id', 'tags', 'author', 'ingredients', 'name', 'text',
                   'cooking_time', 'image', 'is_favorited')
 
+    def validate_ingredients(self, value):
+        print(value)
+        return value
+
     def create(self, validated_data):
         image = validated_data.get('image')
         recipe_author = validated_data.get('author')
@@ -106,6 +106,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         # обработка данных связанной модели IngridientRecipe
         for ingridient in recipe_ingredients:
             # валидация наличия ингридиента в БД
+            print(ingridient)
+            if ingridient['amount'] < 1:
+                raise serializers.ValidationError('Количество ингридиента '
+                                                  'д.б. больше 0')
             if Ingridient.objects.filter(id=(list(ingridient.values())[0])).\
                                          exists():
                 # запись ссылок на ингридиенты нового
