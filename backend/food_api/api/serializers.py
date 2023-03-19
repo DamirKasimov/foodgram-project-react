@@ -30,7 +30,11 @@ class IngredientsRecipeSerializer(serializers.ModelSerializer):
 
     def amount_info(self, instance):
         amounts = (instance.ingredient_amount.values_list('amount', flat=True))
-        return ((list(amounts))[0])
+        if amounts.last() < 1:
+            raise serializers.ValidationError('Количество ингридиента '
+                                              'д.б. больше 0')
+        print(list(amounts))
+        return ((list(amounts))[-1])
 
     class Meta:
         model = Ingridient

@@ -74,7 +74,7 @@ class IngridientRecipe(models.Model):
         null=True
     )
     amount = models.IntegerField(
-        validators=[MinValueValidator(1)],
+        validators=[MinValueValidator(1), ],
         verbose_name='Количество'
     )
 

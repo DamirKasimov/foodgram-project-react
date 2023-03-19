@@ -42,6 +42,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'create':
+            serializer = RecipeCreateSerializer(data=self.request.data)
+            serializer.is_valid(raise_exception=True)
             return RecipeCreateSerializer
         elif self.action == 'partial_update':
             return RecipePatchSerializer
