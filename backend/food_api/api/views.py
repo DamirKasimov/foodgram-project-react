@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .filters import ToFrontFilters
+from .permissions import AuthorOrReadOnly
 from content.models import (Favorites, IngridientRecipe, Recipe,
                             Shopping_cart, Ingridient, Tags)
 from .serializers import (FavoriteSerializer, IngridientsSerializer,
@@ -34,7 +35,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     filterset_class = ToFrontFilters
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (AuthorOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
 
     def perform_create(self, serializer):
