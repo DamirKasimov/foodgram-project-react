@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Subscription, User
-from .serializers import SubscriptionSerializer
+from .serializers import SubscriptionSerializer, CustomUserSerializer
 
 
 class MyTokenCreateView(TokenCreateView):
@@ -29,8 +29,9 @@ class Logout(APIView):
 
 
 class CustomUserViewSet(UserViewSet):
-    queryset = Subscription.objects.all()
-    serializer_class = SubscriptionSerializer
+    queryset = User.objects.all()
+    #queryset = Subscription.objects.all()
+    serializer_class = CustomUserSerializer # новый серик 20.03.23
 
     # ендпойнт subscribe
     @action(methods=['post', 'delete'], detail=True, url_path='subscribe',

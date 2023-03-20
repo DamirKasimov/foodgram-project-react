@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 #SECRET_KEY = 'django-insecure-v5kobe^0%a($hn#h*qzh=&3sfzr((y6!to6axlebm%^h*^owul'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -139,13 +139,22 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'  # внутренняя ссылка
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # папка
 
+DJOSER = {
+    'HIDE_USERS': False,
+    'PERMISSIONS': {
+
+    'user': ['rest_framework.permissions.IsAuthenticated'],
+    'user_list': ['rest_framework.permissions.IsAuthenticated'],
+    }
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
     'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 6,
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-      #   'rest_framework.permissions.AllowAny',
+      #  'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
