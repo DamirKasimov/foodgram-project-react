@@ -33,9 +33,9 @@ class IngridientsViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
-    filter_backends = (DjangoFilterBackend,)
     filterset_class = ToFrontFilters
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
