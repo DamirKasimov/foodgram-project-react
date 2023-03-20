@@ -35,7 +35,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     filterset_class = ToFrontFilters
-    permission_classes = (AuthorOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
 
     def perform_create(self, serializer):
