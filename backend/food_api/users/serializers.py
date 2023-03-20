@@ -30,9 +30,10 @@ class SubscriptionSerializer(SubscriptionUserInfoSerializer):
     def get_recipes(self, object):
         # object == followed_author
         recipes_limit = self.context.get('request').GET.get('recipes_limit')
-     #   if recipes_limit:
-     #       output = Recipe.objects.filter(author_id=object.id).\
-     #           prefetch_related('ingredients').all()[:int(recipes_limit)]
+        if recipes_limit:
+            output = Recipe.objects.filter(author_id=object.id).\
+                prefetch_related('ingredients').all()[:int(recipes_limit)]
+            return NewRecipesSerialaizer(output, many=True).data
         output = Recipe.objects.filter(author_id=object.id).\
             prefetch_related('ingredients').all()
         return NewRecipesSerialaizer(output, many=True).data
@@ -41,7 +42,10 @@ class SubscriptionSerializer(SubscriptionUserInfoSerializer):
         return True
 
     def get_recipes_count(self, instance):
-        return instance.recipes.count()
+        recipes_count = min([instance.recipes.
+                             count(), int(self.context.get('request').
+                                          query_params.get('recipes_limit'))])
+        return recipes_count
 
 
 class CustomUserSerializer(UserSerializer):
@@ -65,5 +69,3 @@ class CustomUserSerializer(UserSerializer):
             return False
         print(obj)
         return Subscription.objects.filter(followed=obj).exists()
-
-

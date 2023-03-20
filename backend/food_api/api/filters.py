@@ -7,8 +7,6 @@ class ToFrontFilters(django_filters.FilterSet):
     is_favorited = django_filters.CharFilter(method='get_is_favorited')
     is_in_shopping_cart = django_filters.\
         CharFilter(method='get_is_in_shopping_cart')
-   # author = django_filters.\
-   #     CharFilter(method='get_author')
     tags = django_filters.ModelMultipleChoiceFilter(
         queryset=Tags.objects.all(),
         to_field_name='slug',
@@ -19,11 +17,6 @@ class ToFrontFilters(django_filters.FilterSet):
     class Meta:
         model = Recipe
         fields = ('author', 'tags',)
-
-   # def get_author(self, queryset, name, value):
-   #     queryset = queryset.filter(author_id__id=
-   #                                int(self.request.query_params.get('author')))
-   #     return queryset
 
     def get_is_favorited(self, queryset, name, value):
         user = self.request.user

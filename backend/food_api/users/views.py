@@ -30,8 +30,7 @@ class Logout(APIView):
 
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
-    #queryset = Subscription.objects.all()
-    serializer_class = CustomUserSerializer # новый серик 20.03.23
+    serializer_class = CustomUserSerializer  # новый серик 20.03.23
 
     # ендпойнт subscribe
     @action(methods=['post', 'delete'], detail=True, url_path='subscribe',
