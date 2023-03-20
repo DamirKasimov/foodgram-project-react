@@ -41,11 +41,16 @@ class SubscriptionSerializer(SubscriptionUserInfoSerializer):
     def get_is_subscribed(self, instance):
         return True
 
+    # возвращает наименьшее количество рецептов, если в запросе recipes_limit:
+    # кол-во рецептов автора ИЛИ recipes_limit
     def get_recipes_count(self, instance):
-        recipes_count = min([instance.recipes.
-                             count(), int(self.context.get('request').
-                                          query_params.get('recipes_limit'))])
-        return recipes_count
+        if self.context.get('request').query_params.get('recipes_limit'):
+            recipes_count = min([instance.recipes.
+                                 count(), int(self.context.get('request').
+                                              query_params.
+                                              get('recipes_limit'))])
+            return recipes_count
+        return instance.recipes.count()
 
 
 class CustomUserSerializer(UserSerializer):
